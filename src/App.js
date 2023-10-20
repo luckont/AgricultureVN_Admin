@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux";
+
+import { rfToken } from "./redux/actions/authAction";
+
+import PageRender from "./customRouter/RoutePage";
+import LoginPage from "./pages/login";
+import HomePage from "./pages/home";
+
+import Header from "./component/header/Header";
 
 function App() {
+
+  const auth = useSelector((state) => state.auth?.token);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(rfToken())
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <div className="main">
+          {auth && <Header />}
+          <Routes>
+            <Route path="/" element={auth ? <HomePage /> : <LoginPage />} />
+            <Route exact path="/:page" element={<PageRender />} />
+            <Route exact path="/:page/:id" element={<PageRender />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
