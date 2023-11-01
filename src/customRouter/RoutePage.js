@@ -13,15 +13,15 @@ const generatePageName = (pageName) => {
 };
 const RoutePage = () => {
   const { page, id } = useParams();
-  // const auth = useSelector((state) => state.auth?.token);
+  const auth = useSelector((state) => state.auth?.token);
   let pageName = "";
-  // if (auth) {
+  if (auth) {
     if (id) {
       pageName = `${page}/[id]`;
     } else {
       pageName = `${page}`;
     }
-  // }
+  }
   return generatePageName(pageName);
 };
 

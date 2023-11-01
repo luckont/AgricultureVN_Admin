@@ -1,8 +1,10 @@
-import { getDataAPI } from "../../untils/fetchData"
+import { getDataAPI, postDataAPI } from "../../untils/fetchData"
 import { GLOBALTYPES } from "./globalTyle"
 
 export const POSTS_LOADING = {
-    GET_POSTS: "GET_POSTS"
+    GET_POSTS: "GET_POSTS",
+    LOADING_POST: "LOADING_POST",
+    GET_POST: "GET_POST",
 }
 
 export const getPosts = ({ auth }) => async (dispatch) => {
@@ -19,3 +21,22 @@ export const getPosts = ({ auth }) => async (dispatch) => {
         });
     }
 }
+export const updatePost = ({ postData, auth }) => async (dispatch) => {
+    try {
+        //Notify to user
+        const msg = {
+            id: postData.id,
+            text: 'Thông báo từ ADMIN !',
+            recipients: postData.userId,
+            url: `/post/${postData.id}`,
+            content: postData.desc,
+            image: ""
+        }
+        await postDataAPI("/notify", msg, auth.token)
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.NOTIFY,
+            payload: { err: err.response.data.msg },
+        });
+    }
+};

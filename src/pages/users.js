@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { USERS_LOADING, getUsers } from "../redux/actions/usersAction";
-import User from "../component/users/UserInfor";
+import { USERS_LOADING } from "../redux/actions/usersAction";
+import UserInfor from "../component/users/UserInfor";
 
 
 const UsersPage = () => {
     const dispatch = useDispatch();
-    const auth = useSelector((state) => state.auth);
+
     const users = useSelector((state) => state.users.users);
     const loadingUser = useSelector((state) => state.users.loadingUser);
 
@@ -31,16 +31,12 @@ const UsersPage = () => {
     }
 
     useEffect(() => {
-        dispatch(getUsers({ auth }));
-    }, [auth, dispatch]);
-
-    useEffect(() => {
         setFilteredUsers(users);
     }, [users]);
 
     return (
         <div className="users">
-            {loadingUser && <User />}
+            {loadingUser && <UserInfor />}
             <div className="mb-3">
                 <input
                     type="text"
@@ -49,7 +45,7 @@ const UsersPage = () => {
                     onChange={handleFilter}
                 />
             </div>
-            <table className="table">
+            <table>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -65,7 +61,9 @@ const UsersPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredUsers.map((user) => (
+                    {filteredUsers
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+                    .map((user) => (
                         <tr key={user._id}>
                             <td>{user._id}</td>
                             <td>{user.username}</td>
