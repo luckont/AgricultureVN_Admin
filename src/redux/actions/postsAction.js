@@ -9,11 +9,16 @@ export const POSTS_LOADING = {
 
 export const getPosts = ({ auth }) => async (dispatch) => {
     try {
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+
         const res = await getDataAPI("/post/news/result", auth.token)
         dispatch({
             type: POSTS_LOADING.GET_POSTS,
             payload: res.data
         })
+
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.NOTIFY,
@@ -23,6 +28,8 @@ export const getPosts = ({ auth }) => async (dispatch) => {
 }
 export const updatePost = ({ postData, auth }) => async (dispatch) => {
     try {
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+
         //Notify to user
         const msg = {
             id: postData.id,
@@ -33,6 +40,8 @@ export const updatePost = ({ postData, auth }) => async (dispatch) => {
             image: ""
         }
         await postDataAPI("/notify", msg, auth.token)
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.NOTIFY,

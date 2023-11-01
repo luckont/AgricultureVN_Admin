@@ -9,11 +9,15 @@ export const USERS_LOADING = {
 
 export const getUsers = ({ auth }) => async (dispatch) => {
     try {
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+
         const res = await getDataAPI("/user", auth.token);
         dispatch({
             type: USERS_LOADING.GET_USERS,
             payload: res.data,
         });
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.NOTIFY,
@@ -23,6 +27,8 @@ export const getUsers = ({ auth }) => async (dispatch) => {
 };
 export const updateUser = ({ userData, auth }) => async (dispatch) => {
     try {
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+
         await putDataAPI(
             `/user/${userData.id}`,
             { roles: userData.roles },
@@ -40,6 +46,7 @@ export const updateUser = ({ userData, auth }) => async (dispatch) => {
         }
 
         await postDataAPI("/notify", msg, auth.token)
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
 
     } catch (err) {
         dispatch({

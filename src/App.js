@@ -9,10 +9,12 @@ import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 
 import Header from "./component/header/Header";
+import Load from "./component/Load";
 
 function App() {
 
   const auth = useSelector((state) => state.auth?.token);
+  const loading = useSelector((state) => state.notify?.loading)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -24,6 +26,7 @@ function App() {
       <div className="App">
         <div className="main">
           {auth && <Header />}
+          {loading && <Load />}
           <Routes>
             <Route path="/" element={auth ? <HomePage /> : <LoginPage />} />
             <Route exact path="/:page" element={<PageRender />} />

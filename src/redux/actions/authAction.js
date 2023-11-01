@@ -13,7 +13,8 @@ export const login = (data) => async (dispatch) => {
             }
         })
         localStorage.setItem("firstLogin", true)
-        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { success: res.data.msg } });
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.NOTIFY,

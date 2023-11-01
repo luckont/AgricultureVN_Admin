@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { POSTS_LOADING } from "../redux/actions/postsAction";
+import { POSTS_LOADING, getPosts } from "../redux/actions/postsAction";
 import PostInfor from "../component/posts/PostInfor";
 
 const PostsPage = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
+  const auth = useSelector((state)=> state.auth)
   const loadingPost = useSelector((state) => state.posts.loadingPost);
 
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -27,6 +28,10 @@ const PostsPage = () => {
     });
     setFilteredPosts(filteredPosts);
   };
+
+  useEffect (() => {
+    if(posts.length == 0) dispatch(getPosts({ auth }));
+  }, [])
 
   useEffect(() => {
     setFilteredPosts(posts);
