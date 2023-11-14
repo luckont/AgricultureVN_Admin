@@ -26,6 +26,25 @@ export const getPosts = ({ auth }) => async (dispatch) => {
         });
     }
 }
+
+export const getPost = ({ id, auth }) => async (dispatch) => {
+    try {
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+        const res = await getDataAPI(`/post/${id}`, auth.token)
+        dispatch({
+            type: POSTS_LOADING.GET_POST,
+            payload: res.data
+        })
+        dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.NOTIFY,
+            payload: { err: err.response.data.msg },
+        });
+    
+    }
+}
+
 export const updatePost = ({ postData, auth }) => async (dispatch) => {
     try {
         dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });

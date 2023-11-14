@@ -11,6 +11,7 @@ const Menu = () => {
     { label: "Trang chủ", icon: "fa-earth-asia", path: "/" },
     { label: "Người dùng", icon: "fa-user-gear", path: "/users" },
     { label: "Bài viết", icon: "fa-file-pen", path: "/posts" },
+    { label: "Báo cáo", icon: "fa-flag", path: "/report" },
   ];
   return (
     <div className="menu">

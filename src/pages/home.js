@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../redux/actions/postsAction";
 import { getUsers } from "../redux/actions/usersAction";
+import { getReports } from "../redux/actions/reportAction";
 import moment from "moment";
 
 const HomePage = () => {
@@ -14,6 +15,7 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(getPosts({ auth }));
     dispatch(getUsers({ auth }));
+    dispatch(getReports({ auth }));
   }, [auth, dispatch]);
 
   return (

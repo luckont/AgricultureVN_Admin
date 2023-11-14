@@ -46,6 +46,7 @@ export const updateUser = ({ userData, auth }) => async (dispatch) => {
         }
 
         await postDataAPI("/notify", msg, auth.token)
+
         dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
 
     } catch (err) {

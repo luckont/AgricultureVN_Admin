@@ -31,7 +31,7 @@ const PostsPage = () => {
 
   useEffect (() => {
     if(posts.length == 0) dispatch(getPosts({ auth }));
-  }, [])
+  }, [posts, dispatch])
 
   useEffect(() => {
     setFilteredPosts(posts);

@@ -31,8 +31,8 @@ const UsersPage = () => {
   };
 
   useEffect(() => {
-    if (users.length == 0) dispatch(getUsers({ auth }));
-  }, []);
+    if (users.length === 0) dispatch(getUsers({ auth }));
+  }, [users.length, dispatch, auth]);
 
   useEffect(() => {
     setFilteredUsers(users);
