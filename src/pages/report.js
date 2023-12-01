@@ -58,6 +58,7 @@ const Report = () => {
             <th>Related</th>
             <th>Desc</th>
             <th>Create</th>
+            <th>Update</th>
             <th>Act</th>
           </tr>
         </thead>
@@ -71,6 +72,7 @@ const Report = () => {
                 <td>{item.related}</td>
                 <td>{item.text}</td>
                 <td>{new Date(item.createdAt).toLocaleString()}</td>
+                <td>{item.act}</td>
                 <td onClick={() => handleGetReport(item)}>Xem</td>
               </tr>
             ))}

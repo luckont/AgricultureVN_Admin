@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { POSTS_LOADING, updatePost } from "../../redux/actions/postsAction";
+import {
+  POSTS_LOADING,
+  deletePost,
+  updatePost,
+} from "../../redux/actions/postsAction";
 
 const PostInfor = () => {
   const post = useSelector((state) => state.posts.post);
@@ -23,12 +27,20 @@ const PostInfor = () => {
     const { name, value } = e.target;
     setPostData({ ...postData, [name]: value });
   };
+
+  const handleDeletePost = () => {
+    if (window.confirm("Are you sure you want to delete ?"))
+      dispatch(deletePost({ post, auth }));
+  };
+
   const imageShow = (src) => {
-    return <img src={src} alt="images" style={{maxHeight: "200px"}}/>;
+    return <img src={src} alt="images" style={{ maxHeight: "200px" }} />;
   };
 
   const videoShow = (src) => {
-    return <video controls src={src} alt="images" style={{maxHeight: "200px"}}/>;
+    return (
+      <video controls src={src} alt="images" style={{ maxHeight: "200px" }} />
+    );
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,7 +76,7 @@ const PostInfor = () => {
             <th>Pic</th>
             <td className="d-flex justify-content-start align-items-center">
               {post.img.map((item, i) => (
-                <div key={i} >
+                <div key={i}>
                   {item.url && (
                     <>
                       {item.url.match(/video/i)
@@ -115,6 +127,13 @@ const PostInfor = () => {
             Cập nhật
           </button>
         </form>
+        <button
+          className="btn btn-danger w-100 mt-2"
+          type="submit"
+          onClick={handleDeletePost}
+        >
+          Xoá
+        </button>
       </div>
     </div>
   );

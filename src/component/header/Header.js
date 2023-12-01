@@ -1,11 +1,17 @@
 import React from "react";
 import Menu from "./Menu";
 import Logo from "../../images/logo_ngang.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions/authAction";
 
 const Header = () => {
 
   const auth = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+
+  const handleLogOut = () => {
+    dispatch(logout())
+  }
 
   return (
     <div style={{paddingRight: "20px"}}>
@@ -18,6 +24,7 @@ const Header = () => {
         <img src={auth.user.profilePicture} height={50} width={50} alt="user_header"/>
         <span style={{marginLeft: "10px"}}>{auth.user.username}</span>
       </div>
+      <button className="btn btn-secondary w-100 mt-2" onClick={handleLogOut}>Đăng xuất</button>
     </div>
   );
 };

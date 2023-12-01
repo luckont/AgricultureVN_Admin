@@ -1,4 +1,9 @@
-import { getDataAPI, postDataAPI, putDataAPI } from "../../untils/fetchData";
+import {
+    deleteDataAPI,
+    getDataAPI,
+    postDataAPI,
+    putDataAPI,
+} from "../../untils/fetchData";
 import { GLOBALTYPES } from "./globalTyle";
 
 export const USERS_LOADING = {
@@ -17,7 +22,6 @@ export const getUsers = ({ auth }) => async (dispatch) => {
             payload: res.data,
         });
         dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
-
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.NOTIFY,
@@ -38,17 +42,37 @@ export const updateUser = ({ userData, auth }) => async (dispatch) => {
         //Notify to user
         const msg = {
             id: userData.id,
-            text: 'Thông báo !',
+            text: "Thông báo !",
             recipients: userData.id,
             url: "",
             content: userData.desc,
-            image: ""
-        }
+            image: "",
+        };
 
-        await postDataAPI("/notify", msg, auth.token)
+        await postDataAPI("/notify", msg, auth.token);
 
         dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.NOTIFY,
+            payload: { err: err.response.data.msg },
+        });
+    }
+};
+export const deleteUser = ({ user, auth }) => async (dispatch) => {
+    try {
+        await deleteDataAPI(`/user/${user._id}`, auth.token);
+         //Notify to user
+         const msg = {
+            id: user._id,
+            text: "Thông báo !",
+            recipients: user._id,
+            url: "",
+            content: "Tài khoản của bạn đã bị xoá do vi phạm quy tắc cộng đồng !",
+            image: "",
+        };
 
+        await postDataAPI("/notify", msg, auth.token);
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.NOTIFY,

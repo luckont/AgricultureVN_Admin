@@ -1,4 +1,4 @@
-import { getDataAPI, postDataAPI } from "../../untils/fetchData"
+import { deleteDataAPI, getDataAPI, postDataAPI } from "../../untils/fetchData"
 import { GLOBALTYPES } from "./globalTyle"
 
 export const POSTS_LOADING = {
@@ -41,7 +41,7 @@ export const getPost = ({ id, auth }) => async (dispatch) => {
             type: GLOBALTYPES.NOTIFY,
             payload: { err: err.response.data.msg },
         });
-    
+
     }
 }
 
@@ -54,8 +54,8 @@ export const updatePost = ({ postData, auth }) => async (dispatch) => {
             id: postData.id,
             text: 'Thông báo từ ADMIN !',
             recipients: postData.userId,
-            url: `/post/${postData.id}`,
-            content: postData.desc,
+            url: "",
+            content: postData.desc + "Đường dẫn: " + `/post/${postData.id}`,
             image: ""
         }
         await postDataAPI("/notify", msg, auth.token)
@@ -68,3 +68,27 @@ export const updatePost = ({ postData, auth }) => async (dispatch) => {
         });
     }
 };
+export const deletePost = ({ post, auth }) => async (dispatch) => {
+    try {
+
+        const res = await deleteDataAPI(`/post/${post._id}`, auth.token);
+        console.err(res)
+        //Notify to post
+        // const msg = {
+        //     id: post._id,
+        //     text: "Thông báo !",
+        //     recipients: post._id,
+        //     url: "",
+        //     content: "Bài viết của bạn đã bị xoá do vi phạm quy tắc cộng đồng !",
+        //     image: "",
+        // };
+
+        // await postDataAPI("/notify", msg, auth.token);
+
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.NOTIFY,
+            payload: { err: err.response.data.msg },
+        });
+    }
+}
